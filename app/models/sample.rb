@@ -1,7 +1,8 @@
 class Sample < ApplicationRecord
   belongs_to :patient
 
-  enum status: { received: 0, prepared: 1, analyzed: 2, archived: 3 }
-
-  validates :barcode, presence: true, uniqueness: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :date_of_birth, presence: true
+  validates :status, presence: true
 end

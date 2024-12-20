@@ -11,22 +11,13 @@
 Patient.destroy_all
 Sample.destroy_all
 
-# Création de 20 patients avec leurs échantillons
-20.times do |i|
-  patient = Patient.create!(
-    name: "Patient #{i + 1}",
-    email: "patient#{i + 1}@example.com",
-    age: rand(20..70) # Âge aléatoire
-  )
 
-  # Chaque patient a entre 1 et 3 échantillons
-  rand(1..3).times do
-    Sample.create!(
-      barcode: SecureRandom.hex(8), # Génère un identifiant unique
-      patient: patient,
-      status: :received
-    )
-  end
-end
+list = List.create(name: 'TO DO')
+list.tasks.create(name: 'Collect samples')
+list.tasks.create(name: 'Stock updating')
+list.tasks.create(name: 'Liquid handling process')
+list.tasks.create(name: 'Analyses')
+list.tasks.create(name: 'Print final report')
 
-puts "20 patients et leurs échantillons ont été créés avec succès !"
+list = List.create(name: 'In progress')
+list = List.create(name: 'Done')
