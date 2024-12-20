@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tasks
   resources :lists
   get "home/index"
   get "home/stock_management"
