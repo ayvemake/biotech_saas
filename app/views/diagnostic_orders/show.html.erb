@@ -1,0 +1,10 @@
+<!-- app/views/diagnostic_orders/show.html.erb -->
+<%= link_to 'Télécharger le rapport PDF', generate_diagnostic_report_path(@diagnostic_order), 
+            class: 'btn btn-primary', target: '_blank', 
+            title: 'Télécharger le rapport PDF', 
+            data: { turbo: false } %>
+
+<p>
+  <strong>Statut:</strong>
+  <%= @patient.status.humanize %> <!-- Affiche le statut humainement lisible -->
+</p>            

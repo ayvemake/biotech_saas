@@ -1,0 +1,29 @@
+<h1>Liste des patients</h1>
+<%= link_to 'Ajouter un patient', new_patient_path, class: 'btn btn-primary' %>
+<table>
+  <thead>
+    <tr>
+      <th>Prénom</th>
+      <th>Nom</th>
+      <th>Date de naissance</th>
+      <th>Statut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @patients.each do |patient| %>
+      <tr>
+        <td><%= patient.first_name %></td>
+        <td><%= patient.last_name %></td>
+        <td><%= patient.birth_date.strftime("%d/%m/%Y") if patient.birth_date.present? %></td>
+        <td>
+        <span class="<%= 'status-' + (patient.status || 'unknown') %>">
+            <%= patient.status.present? ? patient.status.humanize : "Statut non défini" %>
+        </span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+

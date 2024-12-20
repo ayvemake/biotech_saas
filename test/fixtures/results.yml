@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  test: one
+  raw_data: MyText
+  interpretation: MyText
+  created_at: 2024-12-20 02:27:15
+
+two:
+  test: two
+  raw_data: MyText
+  interpretation: MyText
+  created_at: 2024-12-20 02:27:15

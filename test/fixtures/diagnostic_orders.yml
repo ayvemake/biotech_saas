@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient: one
+  doctor_name: MyString
+  prescribed_at: 2024-12-20 02:23:31
+
+two:
+  patient: two
+  doctor_name: MyString
+  prescribed_at: 2024-12-20 02:23:31
