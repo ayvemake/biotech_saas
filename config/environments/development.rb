@@ -71,4 +71,8 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.action_mailer.delivery_method = :letter_opener
+
+  # Autoriser les domaines ngrok
+  config.hosts << /.*\.ngrok-free\.app/
+  # Cette expression régulière autorisera tous les sous-domaines ngrok
 end

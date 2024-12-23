@@ -19,7 +19,12 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'dashboard#index'
   
   resources :patients
-  resources :stock_items
+  resources :stock_items do
+    collection do
+      post 'scan'
+    end
+  end
+  resources :stock_categories
   resources :analyses
   
   namespace :admin do

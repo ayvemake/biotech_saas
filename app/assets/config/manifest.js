@@ -3,4 +3,8 @@
 //= link application.js
 //= link controllers/application.js
 //= link controllers/hello_controller.js
+//= link controllers/sidebar_controller.js
 //= link controllers/index.js
+//= link controllers/dropdown_controller.js
+//= link controllers/scanner_controller.js
+//= link controllers/validation_controller.js

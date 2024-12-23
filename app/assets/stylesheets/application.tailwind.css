@@ -14,4 +14,36 @@
   .form-label {
     @apply block text-sm font-medium text-gray-700;
   }
+
+  .viewport.active {
+    @apply block;
+  }
+  
+  .viewport video {
+    @apply w-full h-full object-cover;
+  }
+  
+  #interactive.viewport {
+    @apply relative;
+  }
+  
+  #interactive.viewport > canvas.drawingBuffer {
+    @apply w-full h-full absolute left-0 top-0;
+  }
+
+  .mobile-sidebar {
+    @apply fixed inset-0 z-40 lg:hidden;
+  }
+
+  .mobile-sidebar-overlay {
+    @apply fixed inset-0 bg-gray-600 bg-opacity-75;
+  }
+
+  .mobile-sidebar-panel {
+    @apply relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4;
+  }
+
+  .mobile-sidebar-close {
+    @apply absolute top-0 right-0 -mr-12 pt-2;
+  }
 }
