@@ -3,11 +3,6 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable
 
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
@@ -15,5 +10,9 @@ class User < ApplicationRecord
   
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def admin?
+    admin
   end
 end

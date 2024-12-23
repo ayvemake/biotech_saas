@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_23_051019) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_23_154532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -145,6 +145,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_051019) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "barcode", null: false
+    t.string "manufacturer"
+    t.string "reference_number"
+    t.string "category"
+    t.index ["barcode"], name: "index_products_on_barcode", unique: true
   end
 
   create_table "protein_processes", force: :cascade do |t|
@@ -200,6 +205,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_051019) do
     t.date "expiry_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_id"
+    t.index ["product_id"], name: "index_stock_items_on_product_id"
     t.index ["reference"], name: "index_stock_items_on_reference", unique: true
     t.index ["stock_category_id"], name: "index_stock_items_on_stock_category_id"
   end
@@ -242,6 +249,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_051019) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.boolean "admin"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -256,6 +264,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_051019) do
   add_foreign_key "results", "tests"
   add_foreign_key "samples", "patients"
   add_foreign_key "stock_batches", "stock_items"
+  add_foreign_key "stock_items", "products"
   add_foreign_key "stock_items", "stock_categories"
   add_foreign_key "tasks", "lists"
   add_foreign_key "tests", "diagnostic_orders"

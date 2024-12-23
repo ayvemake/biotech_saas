@@ -1,14 +1,14 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  layout :layout_by_resource
+  layout :determine_layout
 
   private
 
-  def layout_by_resource
+  def determine_layout
     if devise_controller?
-      "auth"
+      'auth'
     else
-      "application"
+      'application'
     end
   end
 end 

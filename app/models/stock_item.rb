@@ -1,11 +1,14 @@
 class StockItem < ApplicationRecord
   belongs_to :stock_category
+  belongs_to :product, optional: true
   has_many :stock_batches, dependent: :destroy
   
   validates :name, presence: true
   validates :reference, presence: true, uniqueness: true
-  validates :minimum_quantity, numericality: { greater_than_or_equal_to: 0 }
-  validates :current_quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :minimum_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :current_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :unit, presence: true
+  validates :location, presence: true
   
   def low_stock?
     current_quantity <= minimum_quantity

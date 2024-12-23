@@ -1,22 +1,28 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-  }
-  
-  resource :profile, only: [:show, :edit, :update]
-  
-  resources :stock_items do
-    resources :stock_batches, shallow: true
+    sessions: 'users/sessions'
+  }, skip: [:sessions]
+
+  # Custom session routes
+  devise_scope :user do
+    get '/', to: 'users/sessions#new', as: :new_user_session
+    post '/', to: 'users/sessions#create', as: :user_session
+    delete 'logout', to: 'users/sessions#destroy', as: :destroy_user_session
   end
-  
-  resources :stock_categories
-  
-  get 'dashboard', to: 'dashboard#index'
   
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root
   end
   
-  root 'pages#home'
+  root 'users/sessions#new'
+  
+  get 'dashboard', to: 'dashboard#index'
+  
+  resources :patients
+  resources :stock_items
+  resources :analyses
+  
+  namespace :admin do
+    resources :users
+  end
 end

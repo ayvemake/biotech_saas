@@ -30,5 +30,7 @@ module Draft1
     config.view_component.preview_paths << "#{Rails.root}/spec/components/previews"
     config.view_component.preview_route = "/previews"
     config.view_component.preview_controller = "PreviewController"
+
+    config.assets.css_compressor = nil
   end
 end

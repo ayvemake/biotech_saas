@@ -2,7 +2,7 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
   def index
-    @patients = Patient.all.order(created_at: :desc)
+    @patients = Patient.all
   end
 
   def show
@@ -17,7 +17,7 @@ class PatientsController < ApplicationController
     if @patient.save
       redirect_to @patient, notice: 'Patient was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -28,7 +28,7 @@ class PatientsController < ApplicationController
     if @patient.update(patient_params)
       redirect_to @patient, notice: 'Patient was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 
@@ -44,15 +44,6 @@ class PatientsController < ApplicationController
   end
 
   def patient_params
-    params.require(:patient).permit(
-      :first_name, 
-      :last_name, 
-      :date_of_birth, 
-      :gender, 
-      :email, 
-      :phone, 
-      :address, 
-      :medical_history
-    )
+    params.require(:patient).permit(:first_name, :last_name, :email, :phone, :date_of_birth, :gender, :address)
   end
 end 
