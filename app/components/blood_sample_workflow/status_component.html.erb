@@ -1,0 +1,19 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <div class="flex items-center justify-between space-x-8">
+    <% status_steps.each do |step| %>
+      <div class="flex flex-col items-center">
+        <div class="<%= step[:completed] ? 'bg-green-500' : 'bg-gray-200' %> rounded-full h-12 w-12 flex items-center justify-center">
+          <% if step[:completed] %>
+            <i class="fas fa-check text-white"></i>
+          <% end %>
+        </div>
+        <span class="mt-2 text-sm font-medium text-gray-900"><%= step[:title] %></span>
+      </div>
+      <% unless step == status_steps.last %>
+        <div class="flex-1 h-1 bg-gray-200">
+          <div class="h-full bg-green-500" style="width: <%= step[:completed] ? '100%' : '0%' %>"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

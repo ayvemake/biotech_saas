@@ -1,0 +1,25 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <h3 class="text-lg font-medium text-gray-900 mb-4">Final Diagnosis</h3>
+  
+  <div class="space-y-4">
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-gray-500">Status</span>
+      <span class="px-2 py-1 text-xs rounded-full <%= status_color(diagnosis_status) %>">
+        <%= diagnosis_status %>
+      </span>
+    </div>
+
+    <% if blood_sample.diagnosis.nil? && blood_sample.analysis_completed? %>
+      <%= button_to "Start Diagnosis", 
+          blood_sample_diagnoses_path(blood_sample), 
+          method: :post,
+          class: "w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+    <% elsif blood_sample.diagnosis.present? %>
+      <%= render DiagnosisDetailsComponent.new(diagnosis: blood_sample.diagnosis) %>
+    <% else %>
+      <div class="text-sm text-gray-500">
+        Waiting for analysis to complete before starting diagnosis
+      </div>
+    <% end %>
+  </div>
+</div> 

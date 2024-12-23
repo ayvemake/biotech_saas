@@ -1,9 +1,14 @@
 class ApplicationController < ActionController::Base
-  helper_method :show_stock_submenu?
+  before_action :authenticate_user!
+  layout :layout_by_resource
 
   private
 
-  def show_stock_submenu?
-    controller_name.start_with?('stock')
+  def layout_by_resource
+    if devise_controller?
+      "auth"
+    else
+      "application"
+    end
   end
 end 

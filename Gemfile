@@ -59,6 +59,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "letter_opener"
 end
 
 group :test do
@@ -79,3 +80,7 @@ gem "sprockets-rails"
 
 # Pour AWS S3 en production
 gem "aws-sdk-s3", require: false
+
+gem "view_component"
+
+gem "devise"

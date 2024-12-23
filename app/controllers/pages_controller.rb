@@ -1,5 +1,9 @@
 class PagesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:home]
+  
   def home
-    # Add any data needed for the home page
+    if user_signed_in?
+      redirect_to dashboard_path
+    end
   end
 end

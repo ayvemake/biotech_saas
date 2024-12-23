@@ -103,6 +103,19 @@
   <div id="follow-ups" class="tab-content hidden">
     <%= render 'follow_ups/list' %>
   </div>
+
+  <div class="mb-4">
+    <%= link_to "Voir les échantillons sanguins", 
+        patient_blood_samples_path(@patient),
+        class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to patient_blood_samples_path(@patient), 
+        class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" do %>
+      <i class="fas fa-vial mr-2"></i>Voir les échantillons
+    <% end %>
+  </div>
 </div>
 
 <%= javascript_tag do %>

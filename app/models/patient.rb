@@ -3,6 +3,7 @@ class Patient < ApplicationRecord
   has_many :documents, dependent: :destroy
   has_many :analyses, dependent: :destroy
   has_many :follow_ups, dependent: :destroy
+  has_many :blood_samples, dependent: :destroy
 
   validates :first_name, presence: true
   validates :last_name, presence: true

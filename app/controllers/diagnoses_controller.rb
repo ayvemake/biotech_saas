@@ -3,7 +3,7 @@ class DiagnosesController < ApplicationController
   before_action :set_diagnosis, only: [:show, :edit, :update, :destroy]
 
   def index
-    @diagnoses = @patient.diagnoses.order(date: :desc)
+    @diagnoses = @patient.diagnoses
   end
 
   def show
@@ -16,9 +16,9 @@ class DiagnosesController < ApplicationController
   def create
     @diagnosis = @patient.diagnoses.build(diagnosis_params)
     if @diagnosis.save
-      redirect_to patient_path(@patient, anchor: 'diagnoses'), notice: 'Diagnosis was successfully created.'
+      redirect_to patient_path(@patient), notice: 'Diagnosis was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -27,15 +27,15 @@ class DiagnosesController < ApplicationController
 
   def update
     if @diagnosis.update(diagnosis_params)
-      redirect_to patient_path(@patient, anchor: 'diagnoses'), notice: 'Diagnosis was successfully updated.'
+      redirect_to patient_path(@patient), notice: 'Diagnosis was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 
   def destroy
     @diagnosis.destroy
-    redirect_to patient_path(@patient, anchor: 'diagnoses'), notice: 'Diagnosis was successfully deleted.'
+    redirect_to patient_path(@patient), notice: 'Diagnosis was successfully deleted.'
   end
 
   private
@@ -49,6 +49,6 @@ class DiagnosesController < ApplicationController
   end
 
   def diagnosis_params
-    params.require(:diagnosis).permit(:date, :description, :treatment, :notes)
+    params.require(:diagnosis).permit(:date, :description, :treatment, :blood_sample_id, :analysis_id)
   end
 end 

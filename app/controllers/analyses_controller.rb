@@ -1,54 +1,39 @@
 class AnalysesController < ApplicationController
-  before_action :set_patient
-  before_action :set_analysis, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @analyses = @patient.analyses.order(date: :desc)
-  end
-
-  def show
-  end
-
-  def new
-    @analysis = @patient.analyses.build
-  end
+  before_action :set_blood_sample, only: [:create]
+  before_action :set_analysis, only: [:update]
 
   def create
-    @analysis = @patient.analyses.build(analysis_params)
+    @analysis = @blood_sample.build_analysis
     if @analysis.save
-      redirect_to patient_path(@patient, anchor: 'analyses'), notice: 'Analysis was successfully created.'
+      redirect_to blood_sample_path(@blood_sample), notice: 'Analysis was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      redirect_to blood_sample_path(@blood_sample), alert: 'Failed to create analysis.'
     end
-  end
-
-  def edit
   end
 
   def update
     if @analysis.update(analysis_params)
-      redirect_to patient_path(@patient, anchor: 'analyses'), notice: 'Analysis was successfully updated.'
+      redirect_to blood_sample_path(@analysis.blood_sample), notice: 'Analysis was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      redirect_to blood_sample_path(@analysis.blood_sample), alert: 'Failed to update analysis.'
     end
   end
 
-  def destroy
-    @analysis.destroy
-    redirect_to patient_path(@patient, anchor: 'analyses'), notice: 'Analysis was successfully deleted.'
+  def index
+    @analyses = Analysis.all
   end
 
   private
 
-  def set_patient
-    @patient = Patient.find(params[:patient_id])
+  def set_blood_sample
+    @blood_sample = BloodSample.find(params[:blood_sample_id])
   end
 
   def set_analysis
-    @analysis = @patient.analyses.find(params[:id])
+    @analysis = Analysis.find(params[:id])
   end
 
   def analysis_params
-    params.require(:analysis).permit(:date, :category, :status, :result, :notes)
+    params.require(:analysis).permit(:status, :results)
   end
 end 

@@ -25,5 +25,10 @@ module Draft1
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.assets.precompile += %w( application.tailwind.css )
+
+    # ViewComponent configuration
+    config.view_component.preview_paths << "#{Rails.root}/spec/components/previews"
+    config.view_component.preview_route = "/previews"
+    config.view_component.preview_controller = "PreviewController"
   end
 end

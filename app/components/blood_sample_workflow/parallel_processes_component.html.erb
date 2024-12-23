@@ -1,0 +1,27 @@
+<div class="grid grid-cols-2 gap-8">
+  <div class="bg-white shadow rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Cell Culture Process</h3>
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-500">Status</span>
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(cell_culture_status) %>">
+          <%= cell_culture_status.humanize %>
+        </span>
+      </div>
+      <%= render ProcessDetailsComponent.new(process: blood_sample.cell_culture_process) if blood_sample.cell_culture_process %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Protein Analysis Process</h3>
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-500">Status</span>
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(protein_analysis_status) %>">
+          <%= protein_analysis_status.humanize %>
+        </span>
+      </div>
+      <%= render ProcessDetailsComponent.new(process: blood_sample.protein_process) if blood_sample.protein_process %>
+    </div>
+  </div>
+</div> 

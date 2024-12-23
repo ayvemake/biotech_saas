@@ -1,0 +1,27 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <h3 class="text-lg font-medium text-gray-900 mb-4">Combined Analysis</h3>
+  
+  <% if ready_for_analysis? %>
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-500">Status</span>
+        <span class="px-2 py-1 text-xs rounded-full <%= status_color(analysis_status) %>">
+          <%= analysis_status %>
+        </span>
+      </div>
+
+      <% if blood_sample.analysis.nil? %>
+        <%= button_to "Start Analysis", 
+            blood_sample_analyses_path(blood_sample), 
+            method: :post,
+            class: "w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" %>
+      <% else %>
+        <%= render AnalysisDetailsComponent.new(analysis: blood_sample.analysis) %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-sm text-gray-500">
+      Waiting for both processes to complete before starting analysis
+    </div>
+  <% end %>
+</div> 
