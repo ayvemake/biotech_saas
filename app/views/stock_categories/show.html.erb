@@ -1,0 +1,30 @@
+<div class="category-show">
+  <div class="header">
+    <h1><%= @stock_category.name %></h1>
+    <div class="actions">
+      <%= link_to 'Add Item', 
+                  new_stock_category_stock_item_path(@stock_category), 
+                  class: 'button primary' %>
+      <%= link_to 'Edit Category', 
+                  edit_stock_category_path(@stock_category), 
+                  class: 'button' %>
+    </div>
+  </div>
+
+  <div class="description">
+    <p><%= @stock_category.description %></p>
+  </div>
+
+  <div class="items-list">
+    <h2>Items in this category</h2>
+    <% if @stock_category.stock_items.any? %>
+      <div class="items-grid">
+        <% @stock_category.stock_items.each do |item| %>
+          <%= render 'stock_items/item_card', item: item %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="empty-state">No items in this category</p>
+    <% end %>
+  </div>
+</div> 

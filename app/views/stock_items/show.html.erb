@@ -1,0 +1,53 @@
+<div class="item-show">
+  <div class="header">
+    <div class="title">
+      <h1><%= @stock_item.name %></h1>
+      <span class="reference"><%= @stock_item.reference %></span>
+    </div>
+    <div class="actions">
+      <%= link_to 'Add Batch', 
+                  new_stock_item_stock_batch_path(@stock_item), 
+                  class: 'button primary' %>
+      <%= link_to 'Edit Item', 
+                  edit_stock_item_path(@stock_item), 
+                  class: 'button' %>
+    </div>
+  </div>
+
+  <div class="item-details">
+    <div class="main-info">
+      <div class="quantity <%= 'low-stock' if @stock_item.low_stock? %>">
+        <h3>Current Stock</h3>
+        <div class="value">
+          <%= @stock_item.current_quantity %> <%= @stock_item.unit %>
+        </div>
+        <div class="minimum">
+          Minimum: <%= @stock_item.minimum_quantity %> <%= @stock_item.unit %>
+        </div>
+      </div>
+
+      <div class="location">
+        <h3>Location</h3>
+        <%= @stock_item.location %>
+      </div>
+
+      <% if @stock_item.expiry_date %>
+        <div class="expiry <%= 'expiring-soon' if @stock_item.expiring_soon? %>">
+          <h3>Expiry Date</h3>
+          <%= l @stock_item.expiry_date, format: :long %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="batches">
+      <h2>Batches</h2>
+      <% if @stock_batches.any? %>
+        <div class="batches-list">
+          <%= render partial: 'stock_batches/batch', collection: @stock_batches %>
+        </div>
+      <% else %>
+        <p class="empty-state">No batches recorded</p>
+      <% end %>
+    </div>
+  </div>
+</div> 

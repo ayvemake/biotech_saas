@@ -1,0 +1,36 @@
+<%= form_with(model: [@patient, follow_up], class: "space-y-6") do |f| %>
+  <% if follow_up.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-md">
+      <div class="text-sm text-red-700">
+        <h2><%= pluralize(follow_up.errors.count, "error") %> prohibited this follow-up from being saved:</h2>
+        <ul class="list-disc pl-5 mt-2">
+          <% follow_up.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= f.label :date, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :date, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :next_appointment, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :next_appointment, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div class="md:col-span-2">
+      <%= f.label :notes, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :notes, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-3">
+    <%= link_to 'Cancel', patient_path(@patient, anchor: 'follow-ups'), class: "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <%= f.submit class: "px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %> 

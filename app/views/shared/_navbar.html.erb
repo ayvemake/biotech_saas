@@ -1,0 +1,68 @@
+<nav class="bg-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <%= link_to root_path, class: "text-xl font-bold text-blue-600 hover:text-blue-800" do %>
+            <i class="fas fa-flask mr-2"></i>
+            LabManager
+          <% end %>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+          <%= link_to stocks_path, 
+              class: "#{controller_name.start_with?('stock') ? 
+                'border-blue-500 text-gray-900' : 
+                'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} 
+                inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" do %>
+            <i class="fas fa-box mr-2"></i>
+            Stocks
+          <% end %>
+          
+          <!-- Add other main navigation links here -->
+        </div>
+      </div>
+
+      <!-- Right side menu -->
+      <div class="hidden sm:ml-6 sm:flex sm:items-center">
+        <!-- Notifications -->
+        <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+          <i class="fas fa-bell"></i>
+        </button>
+
+        <!-- Profile dropdown -->
+        <div class="ml-3 relative">
+          <button class="flex text-sm rounded-full focus:outline-none">
+            <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+              <i class="fas fa-user text-gray-600"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex items-center sm:hidden">
+        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="sm:hidden hidden">
+    <div class="pt-2 pb-3 space-y-1">
+      <%= link_to stocks_path, 
+          class: "#{controller_name.start_with?('stock') ? 
+            'bg-blue-50 border-blue-500 text-blue-700' : 
+            'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'} 
+            block pl-3 pr-4 py-2 border-l-4 text-base font-medium" do %>
+        <i class="fas fa-box mr-2"></i>
+        Stocks
+      <% end %>
+      <!-- Add other mobile menu items here -->
+    </div>
+  </div>
+</nav> 

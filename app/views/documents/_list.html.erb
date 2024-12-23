@@ -1,0 +1,45 @@
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Documents</h3>
+    <%= link_to new_patient_document_path(@patient), class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+      <i class="fas fa-plus"></i>
+      Upload Document
+    <% end %>
+  </div>
+
+  <div class="border-t border-gray-200">
+    <% if @patient.documents.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @patient.documents.order(created_at: :desc).each do |document| %>
+          <li class="p-4 hover:bg-gray-50">
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-900"><%= document.title %></h4>
+                    <p class="text-sm text-gray-500"><%= document.category %></p>
+                  </div>
+                  <div class="ml-2 flex-shrink-0 flex items-center gap-3">
+                    <%= link_to patient_document_path(@patient, document), class: "text-blue-600 hover:text-blue-900" do %>
+                      <i class="fas fa-download"></i>
+                    <% end %>
+                    <%= button_to patient_document_path(@patient, document), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="mt-2 text-xs text-gray-500">
+                  Uploaded <%= time_ago_in_words(document.created_at) %> ago
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="text-center py-12">
+        <p class="text-sm text-gray-500">No documents uploaded yet.</p>
+      </div>
+    <% end %>
+  </div>
+</div> 

@@ -1,0 +1,32 @@
+<div class="batch-card">
+  <div class="batch-header">
+    <h4>Batch <%= batch.number %></h4>
+    <div class="batch-date">
+      Received on <%= l batch.received_date, format: :long %>
+    </div>
+  </div>
+
+  <div class="batch-details">
+    <div class="quantity">
+      <strong>Quantity:</strong> 
+      <%= batch.quantity %> <%= batch.stock_item.unit %>
+    </div>
+    <% if batch.expiry_date %>
+      <div class="expiry <%= 'expiring-soon' if batch.expiry_date < 30.days.from_now %>">
+        <strong>Expires:</strong> 
+        <%= l batch.expiry_date, format: :long %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="batch-actions">
+    <%= link_to 'Edit', 
+                edit_stock_batch_path(batch), 
+                class: 'button' %>
+    <%= link_to 'Delete', 
+                stock_batch_path(batch), 
+                method: :delete,
+                data: { turbo_confirm: 'Are you sure?' },
+                class: 'button danger' %>
+  </div>
+</div> 

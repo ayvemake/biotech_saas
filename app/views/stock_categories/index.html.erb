@@ -1,0 +1,26 @@
+<div class="categories-container">
+  <div class="header">
+    <h1>Stock Categories</h1>
+    <%= link_to 'New Category', new_stock_category_path, class: 'button primary' %>
+  </div>
+
+  <div class="categories-grid">
+    <% @stock_categories.each do |category| %>
+      <div class="category-card">
+        <h2><%= link_to category.name, stock_category_path(category) %></h2>
+        <p class="description"><%= category.description %></p>
+        <div class="stats">
+          <span><%= category.stock_items.count %> items</span>
+        </div>
+        <div class="actions">
+          <%= link_to 'Edit', edit_stock_category_path(category), class: 'button' %>
+          <%= link_to 'Delete', 
+                      stock_category_path(category), 
+                      method: :delete,
+                      data: { turbo_confirm: 'Are you sure?' },
+                      class: 'button danger' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div> 

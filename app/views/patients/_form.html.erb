@@ -1,36 +1,48 @@
-<%= form_with(model: @patient, local: true) do |form| %>
-  <% if @patient.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
-      <ul>
-        <% @patient.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: patient) do |f| %>
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= f.label :first_name, "First name" %>
+      <%= f.text_field :first_name, class: "w-full p-2 border rounded" %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name %>
+    <div>
+      <%= f.label :last_name, "Last name" %>
+      <%= f.text_field :last_name, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <%= f.label :date_of_birth, "Date of birth" %>
+      <%= f.date_field :date_of_birth, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <%= f.label :gender, "Gender" %>
+      <%= f.select :gender, ['Male', 'Female', 'Other'], { prompt: 'Select gender' }, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <%= f.label :email, "Email" %>
+      <%= f.email_field :email, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div>
+      <%= f.label :phone, "Phone" %>
+      <%= f.telephone_field :phone, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div class="col-span-2">
+      <%= f.label :address, "Address" %>
+      <%= f.text_area :address, rows: 3, class: "w-full p-2 border rounded" %>
+    </div>
+
+    <div class="col-span-2">
+      <%= f.label :medical_history, "Medical history" %>
+      <%= f.text_area :medical_history, rows: 3, class: "w-full p-2 border rounded" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name %>
+  <div class="mt-4 flex justify-end gap-4">
+    <%= link_to 'Cancel', patients_path, class: "px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" %>
+    <%= f.submit "Submit", class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
   </div>
-
-  <div class="field">
-    <%= form.label :date_of_birth %>
-    <%= form.date_select :date_of_birth %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.select :status, Patient.statuses.keys.map { |status| [status.humanize, status] }, include_blank: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+<% end %> 

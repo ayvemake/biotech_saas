@@ -1,0 +1,55 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+
+  &-brand {
+    .navbar-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: #2c3e50;
+      
+      &:hover {
+        color: #3498db;
+      }
+    }
+  }
+
+  &-menu {
+    display: flex;
+    gap: 2rem;
+
+    .navbar-item {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #f8f9fa;
+        color: #3498db;
+      }
+
+      &.active {
+        background-color: #e9ecef;
+        color: #3498db;
+      }
+    }
+  }
+}
+
+/* Ajout d'un espace pour compenser la navbar fixed */
+body {
+  padding-top: 70px;
+} 

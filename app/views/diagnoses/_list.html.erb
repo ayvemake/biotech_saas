@@ -1,0 +1,55 @@
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Diagnoses History</h3>
+    <%= link_to new_patient_diagnosis_path(@patient), class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+      <i class="fas fa-plus"></i>
+      New Diagnosis
+    <% end %>
+  </div>
+
+  <div class="border-t border-gray-200">
+    <% if @patient.diagnoses.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @patient.diagnoses.order(date: :desc).each do |diagnosis| %>
+          <li class="p-4 hover:bg-gray-50">
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm font-medium text-blue-600">
+                    <%= diagnosis.date.strftime("%B %d, %Y") %>
+                  </p>
+                  <div class="ml-2 flex-shrink-0 flex">
+                    <%= link_to edit_patient_diagnosis_path(@patient, diagnosis), class: "text-yellow-600 hover:text-yellow-900 mr-3" do %>
+                      <i class="fas fa-edit"></i>
+                    <% end %>
+                    <%= button_to patient_diagnosis_path(@patient, diagnosis), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-900 font-medium">Description:</p>
+                  <p class="text-sm text-gray-500"><%= diagnosis.description %></p>
+                </div>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-900 font-medium">Treatment:</p>
+                  <p class="text-sm text-gray-500"><%= diagnosis.treatment %></p>
+                </div>
+                <% if diagnosis.notes.present? %>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-900 font-medium">Notes:</p>
+                    <p class="text-sm text-gray-500"><%= diagnosis.notes %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="text-center py-12">
+        <p class="text-sm text-gray-500">No diagnoses recorded yet.</p>
+      </div>
+    <% end %>
+  </div>
+</div> 

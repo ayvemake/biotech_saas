@@ -1,0 +1,54 @@
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Follow-ups</h3>
+    <%= link_to new_patient_follow_up_path(@patient), class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+      <i class="fas fa-plus"></i>
+      New Follow-up
+    <% end %>
+  </div>
+
+  <div class="border-t border-gray-200">
+    <% if @patient.follow_ups.any? %>
+      <ul class="divide-y divide-gray-200">
+        <% @patient.follow_ups.order(date: :desc).each do |follow_up| %>
+          <li class="p-4 hover:bg-gray-50">
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium text-blue-600">
+                      Visit Date: <%= follow_up.date.strftime("%B %d, %Y") %>
+                    </p>
+                    <% if follow_up.next_appointment %>
+                      <p class="text-sm text-gray-500">
+                        Next Appointment: <%= follow_up.next_appointment.strftime("%B %d, %Y") %>
+                      </p>
+                    <% end %>
+                  </div>
+                  <div class="ml-2 flex-shrink-0 flex">
+                    <%= link_to edit_patient_follow_up_path(@patient, follow_up), class: "text-yellow-600 hover:text-yellow-900 mr-3" do %>
+                      <i class="fas fa-edit"></i>
+                    <% end %>
+                    <%= button_to patient_follow_up_path(@patient, follow_up), method: :delete, class: "text-red-600 hover:text-red-900", form: { data: { turbo_confirm: 'Are you sure?' } } do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <% if follow_up.notes.present? %>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-900 font-medium">Notes:</p>
+                    <p class="text-sm text-gray-500"><%= follow_up.notes %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="text-center py-12">
+        <p class="text-sm text-gray-500">No follow-ups recorded yet.</p>
+      </div>
+    <% end %>
+  </div>
+</div> 

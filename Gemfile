@@ -66,3 +66,16 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'acts_as_list'
+
+# Ajoutez ces gems si elles ne sont pas déjà présentes
+gem 'sass-rails'
+gem 'cssbundling-rails'
+
+gem "tailwindcss-rails"
+# Si vous ne l'avez pas déjà
+gem "sprockets-rails"
+
+# Pour AWS S3 en production
+gem "aws-sdk-s3", require: false

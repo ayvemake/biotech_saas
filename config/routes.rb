@@ -1,33 +1,38 @@
 Rails.application.routes.draw do
-  resources :tasks
-  resources :lists
-  get "home/index"
-  get "home/stock_management"
-  get "home/automation"
-  get "patients/new"
-  get "patients/create"
-  get "patients/index"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Root path
+  root 'pages#home'
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Main module routes with index paths
+  get 'patients/index', to: 'patients#index'
+  get 'stocks', to: 'stocks#index'
+  get 'analyses/index', to: 'analyses#index'
+  get 'staff/index', to: 'staff#index'
+  get 'documents/index', to: 'documents#index'
+  get 'quality/index', to: 'quality#index'
+  get 'equipment/index', to: 'equipment#index'
+  get 'finance/index', to: 'finance#index'
+  get 'statistics/index', to: 'statistics#index'
 
-  root "home#index"  # Définir la landing page comme page d'accueil
-  resources :patients
-  get "stock_management", to: "home#stock_management"
-  get "automation", to: "home#automation"
-
-  resources :reports, only: [] do
-    member do
-      get "generate_diagnostic_report", defaults: { format: "pdf" }
+  # Existing nested routes for stocks
+  resources :stock_categories do
+    resources :stock_items, shallow: true do
+      resources :stock_batches, shallow: true
+      member do
+        patch :update_quantity
+      end
     end
   end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Independent routes for stock items and batches
+  resources :stock_items, only: [:index]
+  resources :stock_batches, only: [:index]
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  resources :patients do
+    resources :diagnoses
+    resources :documents
+    resources :analyses
+    resources :follow_ups
+  end
+
+  resources :stocks
 end

@@ -1,11 +1,35 @@
 class Patient < ApplicationRecord
-  has_many :samples, dependent: :destroy
+  has_many :diagnoses, dependent: :destroy
+  has_many :documents, dependent: :destroy
+  has_many :analyses, dependent: :destroy
+  has_many :follow_ups, dependent: :destroy
 
-  validates :first_name, :last_name, :date_of_birth, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :date_of_birth, presence: true
+  validates :gender, presence: true
+  validates :phone, presence: true
 
-  # Définir les statuts possibles avec Active Record Enum
-  # enum status: { en_attente: 0, under_process_1: 1, under_process_2: 2, analysed: 3, sent: 4 }
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 
-  # Validation du statut
-  validates :status, presence: true
-end
+  def age
+    return nil unless date_of_birth
+    now = Time.now.utc.to_date
+    now.year - date_of_birth.year - (date_of_birth.to_date.change(year: now.year) > now ? 1 : 0)
+  end
+
+  def latest_diagnosis
+    diagnoses.order(date: :desc).first
+  end
+
+  def upcoming_appointment
+    follow_ups.where('next_appointment >= ?', Date.today).order(next_appointment: :asc).first
+  end
+
+  def pending_analyses
+    analyses.where(status: 'pending')
+  end
+end 

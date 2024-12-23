@@ -1,26 +1,16 @@
-<h1>Ajouter un patient</h1>
-
-<%= form_with model: @patient, local: true do |form| %>
-  <div>
-    <%= form.label :first_name, "Prénom" %>
-    <%= form.text_field :first_name %>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-between items-center border-b border-gray-200 pb-5 mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
+      <i class="fas fa-user-plus text-blue-500"></i>
+      New Patient
+    </h1>
+    <%= link_to patients_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+      <i class="fas fa-arrow-left"></i>
+      Back
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :last_name, "Nom" %>
-    <%= form.text_field :last_name %>
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <%= render 'form', patient: @patient %>
   </div>
-
-  <div>
-    <%= form.label :birth_date, "Date de naissance" %>
-    <%= form.date_field :birth_date %>
-  </div>
-
-  <div>
-    <%= form.submit "Enregistrer" %>
-  </div>
-<% end %>
-
-<div>
-  <%= link_to "Retour à la liste des patients", patients_path, class: "button" %>
-</div>
+</div> 

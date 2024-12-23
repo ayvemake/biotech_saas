@@ -1,0 +1,48 @@
+.submenu {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 0.5rem 0;
+
+  .submenu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #495057;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    i {
+      font-size: 1rem;
+    }
+
+    &:hover {
+      background-color: #e9ecef;
+    }
+
+    &.active {
+      background-color: #e9ecef;
+      color: #0d6efd;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .submenu-container {
+    overflow-x: auto;
+    padding: 0 0.5rem;
+  }
+
+  .submenu-item {
+    white-space: nowrap;
+  }
+} 

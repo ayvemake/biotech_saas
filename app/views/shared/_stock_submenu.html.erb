@@ -1,0 +1,41 @@
+<div class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex space-x-8 py-4 overflow-x-auto">
+      <%= link_to stocks_path, 
+          class: "#{current_page?(stocks_path) ? 
+            'text-blue-600 border-blue-600' : 
+            'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'} 
+            whitespace-nowrap pb-1 px-1 border-b-2 font-medium text-sm flex items-center" do %>
+        <i class="fas fa-home mr-2"></i>
+        Overview
+      <% end %>
+
+      <%= link_to stock_categories_path, 
+          class: "#{current_page?(stock_categories_path) ? 
+            'text-blue-600 border-blue-600' : 
+            'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'} 
+            whitespace-nowrap pb-1 px-1 border-b-2 font-medium text-sm flex items-center" do %>
+        <i class="fas fa-folder mr-2"></i>
+        Categories
+      <% end %>
+
+      <%= link_to stock_items_path, 
+          class: "#{current_page?(stock_items_path) ? 
+            'text-blue-600 border-blue-600' : 
+            'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'} 
+            whitespace-nowrap pb-1 px-1 border-b-2 font-medium text-sm flex items-center" do %>
+        <i class="fas fa-cube mr-2"></i>
+        Items
+      <% end %>
+
+      <%= link_to stock_batches_path, 
+          class: "#{current_page?(stock_batches_path) ? 
+            'text-blue-600 border-blue-600' : 
+            'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'} 
+            whitespace-nowrap pb-1 px-1 border-b-2 font-medium text-sm flex items-center" do %>
+        <i class="fas fa-boxes mr-2"></i>
+        Batches
+      <% end %>
+    </div>
+  </div>
+</div> 

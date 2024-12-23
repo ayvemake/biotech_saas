@@ -1,0 +1,62 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-between items-center border-b border-gray-200 pb-5 mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Stock Details</h1>
+    <div class="flex gap-3">
+      <%= link_to edit_stock_path(@stock), class: "bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+        <i class="fas fa-edit"></i>
+        Edit
+      <% end %>
+      <%= link_to stocks_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+        <i class="fas fa-arrow-left"></i>
+        Back
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900"><%= @stock.name %></h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Stock item details and information.</p>
+    </div>
+    <div class="border-t border-gray-200">
+      <dl>
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Category</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @stock.category %></dd>
+        </div>
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Current Quantity</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @stock.quantity %></dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Minimum Quantity</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @stock.minimum_quantity %></dd>
+        </div>
+        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Status</dt>
+          <dd class="mt-1 sm:mt-0 sm:col-span-2">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+              <%= case @stock.status
+                  when 'Out of stock' then 'bg-red-100 text-red-800'
+                  when 'Low stock' then 'bg-yellow-100 text-yellow-800'
+                  else 'bg-green-100 text-green-800'
+                  end %>">
+              <%= @stock.status %>
+            </span>
+          </dd>
+        </div>
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Expiry Date</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= @stock.expiry_date.strftime("%B %d, %Y") %>
+            <% if @stock.expiring_soon? %>
+              <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                Expiring Soon
+              </span>
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div> 

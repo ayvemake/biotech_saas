@@ -1,6 +1,11 @@
 class PatientsController < ApplicationController
+  before_action :set_patient, only: [:show, :edit, :update, :destroy]
+
   def index
-    @patients = Patient.all
+    @patients = Patient.all.order(created_at: :desc)
+  end
+
+  def show
   end
 
   def new
@@ -9,20 +14,45 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-
     if @patient.save
-      flash[:notice] = "Patient ajouté avec succès !"
-      redirect_to patients_path
+      redirect_to @patient, notice: 'Patient was successfully created.'
     else
-      flash[:alert] = "Une erreur est survenue. Veuillez vérifier les champs."
-      render :new
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
+  end
+
+  def update
+    if @patient.update(patient_params)
+      redirect_to @patient, notice: 'Patient was successfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @patient.destroy
+    redirect_to patients_url, notice: 'Patient was successfully deleted.'
   end
 
   private
 
-  def patient_params
-    # Ajoute :status dans les paramètres permis
-    params.require(:patient).permit(:first_name, :last_name, :date_of_birth, :status)
+  def set_patient
+    @patient = Patient.find(params[:id])
   end
-end
+
+  def patient_params
+    params.require(:patient).permit(
+      :first_name, 
+      :last_name, 
+      :date_of_birth, 
+      :gender, 
+      :email, 
+      :phone, 
+      :address, 
+      :medical_history
+    )
+  end
+end 

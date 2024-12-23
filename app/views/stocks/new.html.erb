@@ -1,0 +1,13 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-between items-center border-b border-gray-200 pb-5 mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">New Stock Item</h1>
+    <%= link_to stocks_path, class: "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md flex items-center gap-2" do %>
+      <i class="fas fa-arrow-left"></i>
+      Back
+    <% end %>
+  </div>
+
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <%= render 'form', stock: @stock %>
+  </div>
+</div> 

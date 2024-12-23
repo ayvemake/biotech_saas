@@ -1,0 +1,28 @@
+<div class="item-card <%= 'low-stock' if item.low_stock? %>">
+  <div class="item-header">
+    <h3><%= link_to item.name, stock_item_path(item) %></h3>
+    <span class="reference"><%= item.reference %></span>
+  </div>
+  
+  <div class="item-details">
+    <div class="quantity">
+      <strong>Quantity:</strong> 
+      <%= item.current_quantity %> <%= item.unit %>
+    </div>
+    <div class="location">
+      <strong>Location:</strong> 
+      <%= item.location %>
+    </div>
+    <% if item.expiry_date %>
+      <div class="expiry <%= 'expiring-soon' if item.expiring_soon? %>">
+        <strong>Expires:</strong> 
+        <%= l item.expiry_date, format: :long %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="item-actions">
+    <%= link_to 'View', stock_item_path(item), class: 'button' %>
+    <%= link_to 'Edit', edit_stock_item_path(item), class: 'button' %>
+  </div>
+</div> 
