@@ -1,48 +1,37 @@
-<%= form_with(model: patient) do |f| %>
-  <div class="grid grid-cols-2 gap-4">
+<%= form_with(model: patient, class: "space-y-6") do |f| %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
-      <%= f.label :first_name, "First name" %>
-      <%= f.text_field :first_name, class: "w-full p-2 border rounded" %>
-    </div>
-
-    <div>
-      <%= f.label :last_name, "Last name" %>
-      <%= f.text_field :last_name, class: "w-full p-2 border rounded" %>
+      <%= f.label :first_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :first_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
 
     <div>
-      <%= f.label :date_of_birth, "Date of birth" %>
-      <%= f.date_field :date_of_birth, class: "w-full p-2 border rounded" %>
+      <%= f.label :last_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :last_name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
 
     <div>
-      <%= f.label :gender, "Gender" %>
-      <%= f.select :gender, ['Male', 'Female', 'Other'], { prompt: 'Select gender' }, class: "w-full p-2 border rounded" %>
+      <%= f.label :date_of_birth, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :date_of_birth, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
 
     <div>
-      <%= f.label :email, "Email" %>
-      <%= f.email_field :email, class: "w-full p-2 border rounded" %>
+      <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
 
     <div>
-      <%= f.label :phone, "Phone" %>
-      <%= f.telephone_field :phone, class: "w-full p-2 border rounded" %>
+      <%= f.label :phone, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.telephone_field :phone, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
 
-    <div class="col-span-2">
-      <%= f.label :address, "Address" %>
-      <%= f.text_area :address, rows: 3, class: "w-full p-2 border rounded" %>
-    </div>
-
-    <div class="col-span-2">
-      <%= f.label :medical_history, "Medical history" %>
-      <%= f.text_area :medical_history, rows: 3, class: "w-full p-2 border rounded" %>
+    <div class="md:col-span-2">
+      <%= f.label :address, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :address, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
     </div>
   </div>
 
-  <div class="mt-4 flex justify-end gap-4">
-    <%= link_to 'Cancel', patients_path, class: "px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" %>
-    <%= f.submit "Submit", class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" %>
+  <div class="flex justify-end">
+    <%= f.submit class: "btn-primary" %>
   </div>
 <% end %> 

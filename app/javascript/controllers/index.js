@@ -1,19 +1,20 @@
 // Import and register all your controllers from the importmap via controllers/**/*_controller
 import { application } from "./application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
+
+// Import des contrôleurs
+import ModalController from "./modal_controller"
+import SidebarController from "./sidebar_controller"
+import DropdownController from "./dropdown_controller"
+import ScannerController from "./scanner_controller"
+import ValidationController from "./validation_controller"
+
+// Eager load all controllers defined in the import map under controllers/**/*_controller
 eagerLoadControllersFrom("controllers", application)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
-import SidebarController from "./sidebar_controller"
+// Register controllers
+application.register("modal", ModalController)
 application.register("sidebar", SidebarController)
-
-import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
-
-import ScannerController from "./scanner_controller"
 application.register("scanner", ScannerController)
-
-import ValidationController from "./validation_controller"
 application.register("validation", ValidationController)

@@ -1,0 +1,125 @@
+<div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg">
+  <div class="w-full">
+    <div class="flex h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <%= link_to dashboard_path, class: "flex items-center" do %>
+          <i class="fas fa-flask text-white text-2xl ml-2 mr-2"></i>
+          <span class="text-white text-xl font-light tracking-wide">LabManager</span>
+        <% end %>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex-1 flex items-center space-x-4 px-4">
+        <%= link_to dashboard_path,
+            class: "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
+                   #{current_page?(dashboard_path) ? 'bg-white text-blue-600' : 'text-white hover:bg-white/10'}" do %>
+          <i class="fas fa-chart-line mr-2"></i>
+          Dashboard
+        <% end %>
+
+        <%= link_to patients_path,
+            class: "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
+                   #{controller_name == 'patients' ? 'bg-white text-blue-600' : 'text-white hover:bg-white/10'}" do %>
+          <i class="fas fa-users mr-2"></i>
+          Patients
+        <% end %>
+
+        <!-- Stock Dropdown -->
+        <div class="relative" 
+             data-controller="dropdown"
+             data-action="click@window->dropdown#hide">
+          <button type="button" 
+                  class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-white/10 inline-flex items-center"
+                  data-action="click->dropdown#toggle">
+            <i class="fas fa-boxes mr-2"></i>
+            Stock
+            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+          </button>
+
+          <div class="hidden absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+               data-dropdown-target="menu">
+            <%= link_to stock_items_path, 
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-boxes mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Inventory
+            <% end %>
+
+            <%= link_to stock_categories_path,
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-tags mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Categories
+            <% end %>
+
+            <%= link_to stock_batches_path,
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-layer-group mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Batches
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Analyses Dropdown -->
+        <div class="relative" 
+             data-controller="dropdown"
+             data-action="click@window->dropdown#hide">
+          <button type="button" 
+                  class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-white/10 inline-flex items-center"
+                  data-action="click->dropdown#toggle">
+            <i class="fas fa-vial mr-2"></i>
+            Analyses
+            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+          </button>
+
+          <div class="hidden absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+               data-dropdown-target="menu">
+            <%= link_to analyses_path, 
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-list mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Toutes les analyses
+            <% end %>
+
+            <%= link_to new_analysis_path,
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-plus mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Nouvelle analyse
+            <% end %>
+
+            <div class="border-t border-gray-100"></div>
+
+            <%= link_to blood_samples_path,
+                class: "group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50" do %>
+              <i class="fas fa-tint mr-3 text-gray-400 group-hover:text-blue-500"></i>
+              Échantillons
+            <% end %>
+          </div>
+        </div>
+
+        <% if current_user&.admin? %>
+          <%= link_to admin_users_path,
+              class: "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
+                     #{controller_name == 'users' ? 'bg-white text-blue-600' : 'text-white hover:bg-white/10'}" do %>
+            <i class="fas fa-cog mr-2"></i>
+            Settings
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- User Menu -->
+      <div class="flex items-center px-8">
+        <div class="mr-3 text-right">
+          <p class="text-sm font-medium text-white"><%= current_user.full_name %></p>
+          <p class="text-xs text-blue-200"><%= current_user.email %></p>
+        </div>
+        <%= button_to destroy_user_session_path,
+            method: :delete,
+            class: "text-white hover:text-blue-200 transition-colors duration-200" do %>
+          <i class="fas fa-sign-out-alt text-xl"></i>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Spacer pour éviter que le contenu soit caché sous la navbar -->
+<div class="h-16"></div> 

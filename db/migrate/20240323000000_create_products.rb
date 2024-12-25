@@ -1,16 +1,15 @@
-class CreateProducts < ActiveRecord::Migration[7.0]
+class CreateProducts < ActiveRecord::Migration[7.1]
   def change
     create_table :products do |t|
       t.string :name, null: false
-      t.string :barcode, null: false, index: { unique: true }
+      t.string :reference
       t.text :description
       t.string :manufacturer
-      t.string :reference_number
       t.string :category
+      t.decimal :unit_price
+      t.string :unit
 
       t.timestamps
     end
-
-    add_reference :stock_items, :product, foreign_key: true
   end
 end 

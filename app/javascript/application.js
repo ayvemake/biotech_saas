@@ -1,6 +1,6 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
-import "controllers"import "controllers"
+import "./controllers"
 
 // Rediriger les logs vers une div visible
 if (window.location.hostname.includes('ngrok')) {
@@ -16,3 +16,4 @@ if (window.location.hostname.includes('ngrok')) {
     };
   });
 }
+import "controllers"

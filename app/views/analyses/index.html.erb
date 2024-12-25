@@ -1,53 +1,62 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="border-b border-gray-200 pb-5 mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
-      <i class="fas fa-flask text-blue-500"></i>
-      Analysis Management
-    </h1>
-  </div>
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-semibold text-gray-900">Analyses</h1>
+      <%= link_to new_analysis_path, 
+          class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" do %>
+        <i class="fas fa-plus mr-2"></i>
+        Nouvelle analyse
+      <% end %>
+    </div>
 
-  <div class="text-center py-12">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-2xl font-semibold text-blue-600 mb-12">Coming Soon</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-          <div class="text-3xl text-blue-500 mb-4">
-            <i class="fas fa-list-alt"></i>
-          </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Test Catalog</h3>
-          <p class="text-gray-600">Comprehensive list of available tests</p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-          <div class="text-3xl text-blue-500 mb-4">
-            <i class="fas fa-clipboard-check"></i>
-          </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Protocols</h3>
-          <p class="text-gray-600">Standardized testing procedures</p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-          <div class="text-3xl text-blue-500 mb-4">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Results Management</h3>
-          <p class="text-gray-600">Track and validate test results</p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-          <div class="text-3xl text-blue-500 mb-4">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Quality Control</h3>
-          <p class="text-gray-600">Monitor and ensure testing quality</p>
-        </div>
-      </div>
-
-      <div class="mt-12">
-        <button class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition-colors">
-          Get Notified When Available
-        </button>
+    <div class="mt-8">
+      <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Nom</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Patient</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Échantillon</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Statut</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Début</th>
+              <th class="px-6 py-3 text-right text-sm font-semibold text-gray-900">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @analyses.each do |analysis| %>
+              <tr>
+                <td class="px-6 py-4 text-sm text-gray-900">
+                  <%= link_to analysis.name, analysis_path(analysis), class: "hover:text-blue-600" %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                  <%= link_to analysis.patient.full_name, patient_path(analysis.patient), class: "hover:text-blue-600" %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                  <%= link_to analysis.blood_sample.reference, blood_sample_path(analysis.blood_sample), class: "hover:text-blue-600" %>
+                </td>
+                <td class="px-6 py-4 text-sm">
+                  <%= render "shared/status_badge", status: analysis.status %>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                  <%= analysis.started_at&.strftime("%d/%m/%Y") %>
+                </td>
+                <td class="px-6 py-4 text-right text-sm font-medium">
+                  <div class="flex justify-end space-x-3">
+                    <%= link_to edit_analysis_path(analysis), class: "text-blue-600 hover:text-blue-900" do %>
+                      <i class="fas fa-edit"></i>
+                    <% end %>
+                    <%= button_to analysis_path(analysis), 
+                        method: :delete,
+                        class: "text-red-600 hover:text-red-900",
+                        data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer cette analyse ?" } do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -4,17 +4,25 @@ class StockItem < ApplicationRecord
   has_many :stock_batches, dependent: :destroy
   
   validates :name, presence: true
-  validates :current_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :minimum_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :barcode, uniqueness: true, allow_blank: true
   validates :reference, uniqueness: true, allow_blank: true
+  validates :minimum_quantity, :current_quantity,
+            numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   
   def low_stock?
     current_quantity <= minimum_quantity
   end
   
-  def expiring_soon?
-    return false unless expiry_date
-    expiry_date < 30.days.from_now
+  def out_of_stock?
+    current_quantity <= 0
+  end
+  
+  def status
+    if out_of_stock?
+      :out_of_stock
+    elsif low_stock?
+      :low_stock
+    else
+      :in_stock
+    end
   end
 end

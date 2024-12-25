@@ -1,64 +1,88 @@
 <div class="py-6">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-semibold text-gray-900">Tableau de bord</h1>
-      <button 
-        onclick="toggleSidebar()" 
-        class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        aria-label="Toggle sidebar">
-        <i class="fas fa-bars text-xl text-gray-600 hover:text-gray-900"></i>
-      </button>
-    </div>
+    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+  </div>
 
-    <!-- Dashboard Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <!-- Patients Card -->
-      <div class="bg-white overflow-hidden shadow rounded-lg">
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <i class="fas fa-user-group text-blue-600 text-3xl"></i>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <div class="py-4">
+      <!-- Statistics Cards -->
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+        <!-- Total Patients Card -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="p-5">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <i class="fas fa-users text-blue-600 text-3xl"></i>
+              </div>
+              <div class="ml-5 w-0 flex-1">
+                <dl>
+                  <dt class="text-sm font-medium text-gray-500 truncate">Total Patients</dt>
+                  <dd class="text-lg font-semibold text-gray-900"><%= Patient.count %></dd>
+                </dl>
+              </div>
             </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">Patients</dt>
-                <dd class="text-3xl font-semibold text-gray-900">0</dd>
-              </dl>
+          </div>
+        </div>
+
+        <!-- Total Samples Card -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="p-5">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <i class="fas fa-vial text-green-600 text-3xl"></i>
+              </div>
+              <div class="ml-5 w-0 flex-1">
+                <dl>
+                  <dt class="text-sm font-medium text-gray-500 truncate">Total Samples</dt>
+                  <dd class="text-lg font-semibold text-gray-900"><%= BloodSample.count %></dd>
+                </dl>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Analyses Card -->
-      <div class="bg-white overflow-hidden shadow rounded-lg">
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <i class="fas fa-microscope text-purple-600 text-3xl"></i>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">Analyses en cours</dt>
-                <dd class="text-3xl font-semibold text-gray-900">0</dd>
-              </dl>
-            </div>
+      <!-- Recent Activity -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Recent Patients -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Patients</h2>
+          <div class="space-y-4">
+            <% @recent_patients.each do |patient| %>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= link_to patient.full_name, patient_path(patient), class: "hover:text-blue-600" %>
+                  </p>
+                  <p class="text-sm text-gray-500"><%= patient.email %></p>
+                </div>
+                <p class="text-sm text-gray-500">
+                  <%= time_ago_in_words(patient.created_at) %> ago
+                </p>
+              </div>
+            <% end %>
           </div>
         </div>
-      </div>
 
-      <!-- Stock Card -->
-      <div class="bg-white overflow-hidden shadow rounded-lg">
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <i class="fas fa-boxes-stacked text-green-600 text-3xl"></i>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">Stock faible</dt>
-                <dd class="text-3xl font-semibold text-gray-900">0</dd>
-              </dl>
-            </div>
+        <!-- Recent Samples -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Samples</h2>
+          <div class="space-y-4">
+            <% @recent_samples.each do |sample| %>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= link_to "Sample ##{sample.id}", blood_sample_path(sample), class: "hover:text-blue-600" %>
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    <%= sample.patient&.full_name || 'No patient assigned' %>
+                  </p>
+                </div>
+                <span class="px-2 py-1 text-xs font-medium rounded-full <%= sample_status_color(sample.status) %>">
+                  <%= sample.status.titleize %>
+                </span>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

@@ -4,44 +4,28 @@
   <p class="mt-2 text-lg text-gray-600">Efficient Laboratory Management</p>
 </div>
 
-<% if flash[:alert] %>
-  <div class="mb-6 rounded-md bg-red-50 p-4 border border-red-200">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <i class="fas fa-exclamation-circle text-red-400 text-xl"></i>
-      </div>
-      <div class="ml-3">
-        <h3 class="text-base font-medium text-red-800"><%= flash[:alert] %></h3>
-      </div>
-    </div>
-  </div>
-<% end %>
-
-<%= form_tag session_path(:user), class: "space-y-6" do %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
   <div>
-    <%= label_tag :user_email, "Email", class: "block text-base font-medium text-gray-700" %>
-    <%= email_field_tag 'user[email]', nil, autofocus: true, autocomplete: "email", 
+    <%= f.label :email, class: "block text-base font-medium text-gray-700" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email",
         class: "mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg" %>
   </div>
 
   <div>
-    <%= label_tag :user_password, "Password", class: "block text-base font-medium text-gray-700" %>
-    <%= password_field_tag 'user[password]', nil, autocomplete: "current-password",
+    <%= f.label :password, class: "block text-base font-medium text-gray-700" %>
+    <%= f.password_field :password, autocomplete: "current-password",
         class: "mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg" %>
   </div>
 
   <div class="flex items-center justify-between">
     <div class="flex items-center">
-      <%= check_box_tag 'user[remember_me]', '1', false, 
-          class: "h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
-      <%= label_tag :user_remember_me, "Remember me", class: "ml-2 text-base text-gray-600" %>
+      <%= f.check_box :remember_me, class: "h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
+      <%= f.label :remember_me, class: "ml-2 text-base text-gray-600" %>
     </div>
-    <%= link_to "Forgot password?", new_password_path(:user), 
+    <%= link_to "Forgot password?", new_password_path(resource_name),
         class: "text-base font-medium text-blue-600 hover:text-blue-500" %>
   </div>
 
-  <div>
-    <%= submit_tag "Sign in", 
-        class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-  </div>
+  <%= f.submit "Sign in",
+      class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
 <% end %>

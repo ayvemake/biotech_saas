@@ -1,9 +1,17 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div class="mb-8">
-    <h1 class="text-2xl font-semibold text-gray-900">New Stock Item</h1>
-  </div>
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <div class="md:flex md:items-center md:justify-between">
+      <div class="flex-1 min-w-0">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+          New Stock Item
+        </h2>
+      </div>
+    </div>
 
-  <div class="bg-white shadow-lg rounded-lg p-6">
-    <%= render 'form' %>
+    <div class="mt-8">
+      <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-6">
+        <%= render 'form', stock_item: @stock_item %>
+      </div>
+    </div>
   </div>
 </div> 

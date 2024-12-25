@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_23_224712) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_25_020007) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
+  enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -43,195 +53,133 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_224712) do
   end
 
   create_table "analyses", force: :cascade do |t|
+    t.string "name", null: false
     t.bigint "patient_id", null: false
-    t.date "date"
-    t.string "category"
-    t.string "status"
-    t.text "result"
+    t.bigint "blood_sample_id", null: false
+    t.integer "status", default: 0
+    t.datetime "started_at"
+    t.datetime "completed_at"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["blood_sample_id"], name: "index_analyses_on_blood_sample_id"
     t.index ["patient_id"], name: "index_analyses_on_patient_id"
   end
 
-  create_table "batches", force: :cascade do |t|
-    t.string "number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "blood_samples", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.string "reference", null: false
+    t.datetime "collection_date"
+    t.string "collection_site"
+    t.integer "volume"
+    t.string "unit"
+    t.integer "status", default: 0
+    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_blood_samples_on_patient_id"
+    t.index ["reference"], name: "index_blood_samples_on_reference", unique: true
   end
 
   create_table "cell_culture_processes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "diagnoses", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.date "date"
-    t.text "description"
-    t.text "treatment"
+    t.bigint "analysis_id", null: false
+    t.bigint "blood_sample_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date"
+    t.integer "cell_count"
+    t.decimal "viability"
     t.text "notes"
+    t.string "media_used"
+    t.integer "passage_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_diagnoses_on_patient_id"
-  end
-
-  create_table "diagnostic_orders", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.string "doctor_name"
-    t.datetime "prescribed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_diagnostic_orders_on_patient_id"
-  end
-
-  create_table "documents", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.string "title"
-    t.string "category"
-    t.string "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_documents_on_patient_id"
-  end
-
-  create_table "follow_ups", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.date "date"
-    t.text "notes"
-    t.date "next_appointment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_follow_ups_on_patient_id"
-  end
-
-  create_table "lists", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position"
+    t.integer "status", default: 0
+    t.index ["analysis_id"], name: "index_cell_culture_processes_on_analysis_id"
+    t.index ["blood_sample_id"], name: "index_cell_culture_processes_on_blood_sample_id"
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string "name"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.string "email"
-    t.integer "age"
+    t.string "phone"
+    t.date "birth_date"
+    t.string "gender"
+    t.text "medical_history"
+    t.string "patient_number", null: false
+    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.date "birth_date"
-    t.integer "status"
-    t.date "date_of_birth"
-    t.string "gender"
-    t.string "phone"
-    t.text "address"
-    t.text "medical_history"
+    t.index ["last_name", "first_name"], name: "index_patients_on_last_name_and_first_name"
+    t.index ["patient_number"], name: "index_patients_on_patient_number", unique: true
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.string "reference"
+    t.text "description"
+    t.string "manufacturer"
+    t.string "category"
+    t.decimal "unit_price"
+    t.string "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "barcode", null: false
-    t.string "manufacturer"
-    t.string "reference_number"
-    t.string "category"
-    t.index ["barcode"], name: "index_products_on_barcode", unique: true
   end
 
   create_table "protein_processes", force: :cascade do |t|
+    t.bigint "analysis_id", null: false
+    t.bigint "blood_sample_id", null: false
+    t.decimal "concentration"
+    t.decimal "purity"
+    t.string "method_used"
+    t.text "notes"
+    t.datetime "processed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "results", force: :cascade do |t|
-    t.bigint "test_id", null: false
-    t.text "raw_data"
-    t.text "interpretation"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["test_id"], name: "index_results_on_test_id"
-  end
-
-  create_table "samples", force: :cascade do |t|
-    t.string "barcode"
-    t.bigint "patient_id", null: false
     t.integer "status", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_samples_on_patient_id"
+    t.index ["analysis_id"], name: "index_protein_processes_on_analysis_id"
+    t.index ["blood_sample_id"], name: "index_protein_processes_on_blood_sample_id"
   end
 
   create_table "stock_batches", force: :cascade do |t|
-    t.string "number"
     t.bigint "stock_item_id", null: false
+    t.string "batch_number"
     t.integer "quantity"
-    t.date "received_date"
     t.date "expiry_date"
+    t.decimal "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["number"], name: "index_stock_batches_on_number", unique: true
+    t.text "notes"
+    t.string "reference"
+    t.integer "status", default: 0
+    t.index ["batch_number"], name: "index_stock_batches_on_batch_number", unique: true
+    t.index ["reference"], name: "index_stock_batches_on_reference", unique: true
     t.index ["stock_item_id"], name: "index_stock_batches_on_stock_item_id"
   end
 
   create_table "stock_categories", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
+    t.string "name", null: false
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_stock_categories_on_name", unique: true
   end
 
   create_table "stock_items", force: :cascade do |t|
-    t.string "name"
-    t.string "reference"
+    t.string "name", null: false
     t.bigint "stock_category_id", null: false
-    t.integer "minimum_quantity", default: 0
-    t.integer "current_quantity", default: 0
-    t.string "unit"
-    t.string "location"
-    t.date "expiry_date"
+    t.bigint "product_id"
+    t.integer "minimum_quantity"
+    t.integer "reorder_point"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "product_id"
+    t.string "barcode"
+    t.string "unit"
+    t.string "reference"
+    t.index ["barcode"], name: "index_stock_items_on_barcode", unique: true
     t.index ["product_id"], name: "index_stock_items_on_product_id"
     t.index ["reference"], name: "index_stock_items_on_reference", unique: true
     t.index ["stock_category_id"], name: "index_stock_items_on_stock_category_id"
-  end
-
-  create_table "stocks", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string "name"
-    t.bigint "list_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["list_id"], name: "index_tasks_on_list_id"
-  end
-
-  create_table "tests", force: :cascade do |t|
-    t.bigint "diagnostic_order_id", null: false
-    t.string "name"
-    t.string "status"
-    t.datetime "performed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["diagnostic_order_id"], name: "index_tests_on_diagnostic_order_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -240,32 +188,41 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_23_224712) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "job_title"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.boolean "admin"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "role", default: 0
+    t.integer "status", default: 0
+    t.boolean "admin", default: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "analyses", "blood_samples"
   add_foreign_key "analyses", "patients"
-  add_foreign_key "diagnoses", "patients"
-  add_foreign_key "diagnostic_orders", "patients"
-  add_foreign_key "documents", "patients"
-  add_foreign_key "follow_ups", "patients"
-  add_foreign_key "results", "tests"
-  add_foreign_key "samples", "patients"
+  add_foreign_key "blood_samples", "patients"
+  add_foreign_key "cell_culture_processes", "analyses"
+  add_foreign_key "cell_culture_processes", "blood_samples"
+  add_foreign_key "protein_processes", "analyses"
+  add_foreign_key "protein_processes", "blood_samples"
   add_foreign_key "stock_batches", "stock_items"
   add_foreign_key "stock_items", "products"
   add_foreign_key "stock_items", "stock_categories"
-  add_foreign_key "tasks", "lists"
-  add_foreign_key "tests", "diagnostic_orders"
 end

@@ -23,17 +23,15 @@ equipment = StockCategory.create!(
 puts "Creating products..."
 ethanol = Product.create!(
   name: 'Ethanol 70%',
-  barcode: 'ETH70-123456',
-  manufacturer: 'ChemCorp',
   reference_number: 'ETH-70',
+  manufacturer: 'ChemCorp',
   category: 'Reagents'
 )
 
 pbs = Product.create!(
   name: 'PBS 10X',
-  barcode: 'PBS10X-789012',
-  manufacturer: 'BioLabs',
   reference_number: 'PBS-10X',
+  manufacturer: 'BioLabs',
   category: 'Reagents'
 )
 
@@ -79,14 +77,52 @@ StockBatch.create!(
   expiry_date: 6.months.from_now
 )
 
-puts "Creating default user..."
+puts "Creating users..."
+# Create default user
 User.find_or_create_by!(email: 'user@example.com') do |user|
   user.password = 'password123'
   user.password_confirmation = 'password123'
   user.first_name = 'Anil'
   user.last_name = 'Kahraman'
-  user.confirmed_at = Time.current
 end
 
 puts "Default user created: user@example.com / password123"
+
+# Create admin user
+User.find_or_create_by!(email: 'admin@example.com') do |user|
+  user.password = 'password123'
+  user.password_confirmation = 'password123'
+  user.first_name = 'Admin'
+  user.last_name = 'User'
+  user.admin = true
+end
+
+puts "Default admin user created: admin@example.com / password123"
+
+# Create test patients
+puts "Creating test patients..."
+10.times do
+  Patient.create!(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 90),
+    email: Faker::Internet.email,
+    phone: Faker::PhoneNumber.phone_number
+  )
+end
+
+# Create blood samples and analyses
+puts "Creating blood samples and analyses..."
+Patient.all.each do |patient|
+  2.times do
+    sample = BloodSample.create!(
+      patient: patient,
+      status: :received
+    )
+
+    CellCultureProcess.create!(blood_sample: sample, status: :pending)
+    ProteinProcess.create!(blood_sample: sample, status: :pending)
+  end
+end
+
 puts "Finished!"

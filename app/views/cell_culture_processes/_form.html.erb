@@ -1,0 +1,59 @@
+<%= form_with(model: [@analysis, cell_culture_process], 
+              class: "space-y-6",
+              data: { turbo: false }) do |f| %>
+
+  <%= f.hidden_field :analysis_id %>
+  <%= f.hidden_field :blood_sample_id %>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div>
+      <%= f.label :start_date, "Date de début", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :start_date, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :end_date, "Date de fin", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :end_date, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :cell_count, "Nombre de cellules", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :cell_count, 
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :viability, "Viabilité (%)", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :viability, step: "0.1", min: 0, max: 100,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :media_used, "Milieu utilisé", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :media_used,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= f.label :passage_number, "Numéro de passage", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :passage_number, min: 0,
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :notes, "Notes", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :notes, rows: 3,
+        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <div class="flex justify-end space-x-3">
+    <%= link_to "Annuler", "#", 
+        class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50",
+        data: { action: "click->modal#close" } %>
+    <%= f.submit "Enregistrer",
+        class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+  </div>
+<% end %> 

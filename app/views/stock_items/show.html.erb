@@ -1,53 +1,101 @@
-<div class="item-show">
-  <div class="header">
-    <div class="title">
-      <h1><%= @stock_item.name %></h1>
-      <span class="reference"><%= @stock_item.reference %></span>
-    </div>
-    <div class="actions">
-      <%= link_to 'Add Batch', 
-                  new_stock_item_stock_batch_path(@stock_item), 
-                  class: 'button primary' %>
-      <%= link_to 'Edit Item', 
-                  edit_stock_item_path(@stock_item), 
-                  class: 'button' %>
-    </div>
-  </div>
-
-  <div class="item-details">
-    <div class="main-info">
-      <div class="quantity <%= 'low-stock' if @stock_item.low_stock? %>">
-        <h3>Current Stock</h3>
-        <div class="value">
-          <%= @stock_item.current_quantity %> <%= @stock_item.unit %>
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <!-- Header avec boutons d'action -->
+    <div class="md:flex md:items-center md:justify-between">
+      <div class="flex-1 min-w-0">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+          <%= @stock_item.name %>
+        </h2>
+        <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+          <div class="mt-2 flex items-center text-sm text-gray-500">
+            <i class="fas fa-tag flex-shrink-0 mr-1.5 text-gray-400"></i>
+            <%= @stock_item.reference %>
+          </div>
+          <div class="mt-2 flex items-center text-sm text-gray-500">
+            <i class="fas fa-folder flex-shrink-0 mr-1.5 text-gray-400"></i>
+            <%= @stock_item.stock_category&.name %>
+          </div>
         </div>
-        <div class="minimum">
-          Minimum: <%= @stock_item.minimum_quantity %> <%= @stock_item.unit %>
+      </div>
+      <div class="mt-4 flex md:mt-0 md:ml-4 space-x-3">
+        <%= link_to edit_stock_item_path(@stock_item), class: "btn-secondary" do %>
+          <i class="fas fa-edit mr-2"></i>
+          Edit
+        <% end %>
+        <%= button_to stock_item_path(@stock_item), 
+            method: :delete,
+            class: "btn-danger",
+            data: { turbo_confirm: "Are you sure?" } do %>
+          <i class="fas fa-trash mr-2"></i>
+          Delete
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Informations principales -->
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <!-- Stock Info Card -->
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Stock Information</h3>
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Current Quantity</dt>
+              <dd class="mt-1 text-lg text-gray-900">
+                <span class="<%= quantity_status_color(@stock_item) %>">
+                  <%= @stock_item.current_quantity %> <%= @stock_item.unit %>
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Minimum Quantity</dt>
+              <dd class="mt-1 text-lg text-gray-900">
+                <%= @stock_item.minimum_quantity %> <%= @stock_item.unit %>
+              </dd>
+            </div>
+            <div class="sm:col-span-2">
+              <dt class="text-sm font-medium text-gray-500">Location</dt>
+              <dd class="mt-1 text-lg text-gray-900"><%= @stock_item.location %></dd>
+            </div>
+          </dl>
         </div>
       </div>
 
-      <div class="location">
-        <h3>Location</h3>
-        <%= @stock_item.location %>
+      <!-- Batches Card -->
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Batches</h3>
+            <%= link_to new_stock_item_stock_batch_path(@stock_item), class: "btn-primary btn-sm" do %>
+              <i class="fas fa-plus mr-2"></i>
+              Add Batch
+            <% end %>
+          </div>
+          
+          <div class="flow-root">
+            <ul role="list" class="-my-5 divide-y divide-gray-200">
+              <% @stock_batches.each do |batch| %>
+                <li class="py-4">
+                  <div class="flex items-center space-x-4">
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-gray-900 truncate">
+                        <%= batch.number %>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        Quantity: <%= batch.quantity %> <%= @stock_item.unit %>
+                      </p>
+                    </div>
+                    <div class="text-right text-sm">
+                      <p class="text-gray-900">Expires</p>
+                      <p class="text-gray-500"><%= batch.expiry_date&.strftime("%b %d, %Y") %></p>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
-
-      <% if @stock_item.expiry_date %>
-        <div class="expiry <%= 'expiring-soon' if @stock_item.expiring_soon? %>">
-          <h3>Expiry Date</h3>
-          <%= l @stock_item.expiry_date, format: :long %>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="batches">
-      <h2>Batches</h2>
-      <% if @stock_batches.any? %>
-        <div class="batches-list">
-          <%= render partial: 'stock_batches/batch', collection: @stock_batches %>
-        </div>
-      <% else %>
-        <p class="empty-state">No batches recorded</p>
-      <% end %>
     </div>
   </div>
 </div> 

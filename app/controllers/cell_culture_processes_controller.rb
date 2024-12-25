@@ -1,21 +1,42 @@
 class CellCultureProcessesController < ApplicationController
-  before_action :set_process
+  before_action :authenticate_user!
+  before_action :set_cell_culture_process, only: [:show, :edit, :update, :destroy]
+
+  def index
+    @cell_culture_processes = CellCultureProcess.includes(:analysis, :blood_sample)
+                                              .order(start_date: :desc)
+  end
+
+  def show
+  end
+
+  def create
+    @cell_culture_process = CellCultureProcess.new(cell_culture_process_params)
+    if @cell_culture_process.save
+      redirect_to @cell_culture_process.analysis, notice: 'Cell culture process was successfully created.'
+    else
+      redirect_to @cell_culture_process.analysis, alert: 'Error creating cell culture process.'
+    end
+  end
 
   def update
-    if @process.update(process_params)
-      redirect_to blood_sample_path(@process.blood_sample), notice: 'Cell culture process was successfully updated.'
+    if @cell_culture_process.update(cell_culture_process_params)
+      redirect_to @cell_culture_process.analysis, notice: 'Cell culture process was successfully updated.'
     else
-      redirect_to blood_sample_path(@process.blood_sample), alert: 'Failed to update cell culture process.'
+      render :edit, status: :unprocessable_entity
     end
   end
 
   private
 
-  def set_process
-    @process = CellCultureProcess.find(params[:id])
+  def set_cell_culture_process
+    @cell_culture_process = CellCultureProcess.find(params[:id])
   end
 
-  def process_params
-    params.require(:cell_culture_process).permit(:status, :notes)
+  def cell_culture_process_params
+    params.require(:cell_culture_process).permit(
+      :analysis_id, :blood_sample_id, :start_date, :end_date,
+      :cell_count, :viability, :notes, :media_used, :passage_number
+    )
   end
 end 

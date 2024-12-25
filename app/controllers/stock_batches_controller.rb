@@ -1,9 +1,10 @@
 class StockBatchesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_stock_batch, only: [:show, :edit, :update, :destroy]
   before_action :set_stock_item, only: [:new, :create]
 
   def index
-    @stock_batches = StockBatch.includes(:stock_item).all
+    @stock_batches = StockBatch.includes(:stock_item).order(created_at: :desc)
   end
 
   def show
@@ -13,21 +14,16 @@ class StockBatchesController < ApplicationController
     @stock_batch = @stock_item.stock_batches.build
   end
 
-  def edit
-  end
-
   def create
     @stock_batch = @stock_item.stock_batches.build(stock_batch_params)
-
     if @stock_batch.save
-      # Update total quantity of the item
-      new_total = @stock_item.current_quantity + @stock_batch.quantity
-      @stock_item.update(current_quantity: new_total)
-      
       redirect_to @stock_item, notice: 'Batch was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
   end
 
   def update
@@ -40,10 +36,6 @@ class StockBatchesController < ApplicationController
 
   def destroy
     stock_item = @stock_batch.stock_item
-    # Update total quantity of the item
-    new_total = stock_item.current_quantity - @stock_batch.quantity
-    stock_item.update(current_quantity: new_total)
-    
     @stock_batch.destroy
     redirect_to stock_item, notice: 'Batch was successfully deleted.'
   end
@@ -59,6 +51,8 @@ class StockBatchesController < ApplicationController
   end
 
   def stock_batch_params
-    params.require(:stock_batch).permit(:number, :quantity, :received_date, :expiry_date)
+    params.require(:stock_batch).permit(
+      :number, :quantity, :received_date, :expiry_date, :notes
+    )
   end
 end 

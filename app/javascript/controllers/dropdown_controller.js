@@ -3,22 +3,18 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["menu"]
 
+  connect() {
+    console.log("Dropdown controller connected!")
+  }
+
   toggle() {
+    console.log("Toggle called!")
     this.menuTarget.classList.toggle("hidden")
   }
 
-  // Ferme le menu si on clique en dehors
-  clickOutside(event) {
+  hide(event) {
     if (!this.element.contains(event.target)) {
       this.menuTarget.classList.add("hidden")
     }
-  }
-
-  connect() {
-    document.addEventListener("click", this.clickOutside.bind(this))
-  }
-
-  disconnect() {
-    document.removeEventListener("click", this.clickOutside.bind(this))
   }
 } 

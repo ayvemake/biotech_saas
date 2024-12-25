@@ -1,8 +1,9 @@
 class PatientsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_patient, only: [:show, :edit, :update, :destroy]
 
   def index
-    @patients = Patient.all
+    @patients = Patient.all.order(created_at: :desc)
   end
 
   def show
@@ -17,7 +18,7 @@ class PatientsController < ApplicationController
     if @patient.save
       redirect_to @patient, notice: 'Patient was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -28,13 +29,13 @@ class PatientsController < ApplicationController
     if @patient.update(patient_params)
       redirect_to @patient, notice: 'Patient was successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @patient.destroy
-    redirect_to patients_url, notice: 'Patient was successfully deleted.'
+    redirect_to patients_path, notice: 'Patient was successfully deleted.'
   end
 
   private
@@ -44,6 +45,6 @@ class PatientsController < ApplicationController
   end
 
   def patient_params
-    params.require(:patient).permit(:first_name, :last_name, :email, :phone, :date_of_birth, :gender, :address)
+    params.require(:patient).permit(:first_name, :last_name, :date_of_birth, :email, :phone, :address)
   end
 end 
