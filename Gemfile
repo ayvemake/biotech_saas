@@ -20,7 +20,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Autres dépendances
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.3"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "devise"
