@@ -6,7 +6,7 @@ ruby "3.3.4"
 # Rails et base de données
 gem "rails", "~> 7.1.3"
 gem "pg", "~> 1.1"
-gem "puma", "~> 6.0"
+gem "puma", "~> 6.6"
 
 # Asset pipeline et styles
 gem "sprockets-rails"
